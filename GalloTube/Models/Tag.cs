@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace GalloTube.Models;
 
+[Table("Tag")]
 public class Tag
 {
     [Key]

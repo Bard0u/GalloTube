@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GalloTube.Models;
 
-   [Table("public class VideoTag")]
+   [Table("VideoTag")]
 public class VideoTag
 {
 

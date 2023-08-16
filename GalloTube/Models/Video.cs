@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace GalloTube.Models;
-
+[Table("Video")]
 public class Video
 {
     [Key]
@@ -23,14 +23,25 @@ public class Video
     [StringLength(8000, ErrorMessage = "A Descrição deve possuir no máximo 5000 caracteres")]
     public string Description { get; set; }
 
-    [Column(TypeName = "Lançamento")]
+
     [Display(Name = "data de lançamento")]
     [Required(ErrorMessage = "A data de lançamento é obrigatória")]
     public DateTime UploadDate { get; set; }
 
+
     [Display(Name = "Duração (em minutos)")]
     [Required(ErrorMessage = "A Duração é obrigatória")]
     public Int16 Duration { get; set; }
+
+    [NotMapped]
+    [Display(Name = "Duração")]
+    public string HourDuration
+    {
+        get
+        {
+            return TimeSpan.FromMinutes(Duration).ToString(@"%h'h 'mm'min'");
+        }
+    }
 
     [StringLength(200)]
     [Display(Name = "Thumbnail")]
@@ -42,5 +53,5 @@ public class Video
 
 
 
-    public ICollection<VideoTag> Tag { get; set; }
+    public ICollection<VideoTag> Tags { get; set; }
 }

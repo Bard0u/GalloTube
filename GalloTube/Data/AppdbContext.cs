@@ -53,7 +53,7 @@ public class AppDbContext : IdentityDbContext
 
         builder.Entity<VideoTag>()
             .HasOne(vt => vt.Video)
-            .WithMany(t => t.Tag)
+            .WithMany(t => t.Tags)
             .HasForeignKey(vt => vt.VideoId);
 
         builder.Entity<VideoTag>()
