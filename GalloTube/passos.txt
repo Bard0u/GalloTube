@@ -36,10 +36,10 @@ dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore --version 6
  Criar as classes (Botão Direito na pasta Models e escolher a opção 'New # Add > Class'):
  - AppUser
  - Tag
- - Movie
- - MovieComment
- - MovieTag
- - MovieRating
+ - Video
+ - VideoComment
+ - VideoTag
+ - VideoRating
 
  
 -- Abrir e alterar o arquivo Tag.cs:
@@ -58,17 +58,17 @@ public class Tag
     [Required(ErrorMessage = "O nome do Gênero é obrigatório")]
     [StringLength(30, ErrorMessage = "O Nome deve possuir no máximo 30 caracteres")]
     public string Name { get; set; }    
-    public ICollection<MovieTag> Movies { get; set; }
+    public ICollection<VideoTag> Videos { get; set; }
 }
 
 
--- Abrir e alterar o arquivo Movie.cs:
+-- Abrir e alterar o arquivo Video.cs:
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace GalloTube.Models;
 
-[Table("Movie")]
-public class Movie
+[Table("Video")]
+public class Video
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -92,7 +92,7 @@ public class Movie
     [Column(TypeName = "Year")]
     [Display(Name = "Ano de Estreia")]
     [Required(ErrorMessage = "O Ano de Estreia é obrigatório")]
-    public Int16 MovieYear { get; set; }
+    public Int16 VideoYear { get; set; }
 
     [Display(Name = "Duração (em minutos)")]
     [Required(ErrorMessage = "A Duração é obrigatória")]
@@ -112,9 +112,9 @@ public class Movie
         return TimeSpan.FromMinutes(Duration) .ToString(@"%h'h 'mm'min'");
     }}
 
-    public ICollection<MovieComment> Comments { get; set; }
-    public ICollection<MovieTag> Tags { get; set; }
-    public ICollection<MovieRating> Ratings { get; set; }
+    public ICollection<VideoComment> Comments { get; set; }
+    public ICollection<VideoTag> Tags { get; set; }
+    public ICollection<VideoRating> Ratings { get; set; }
 
 }
 
@@ -136,27 +136,27 @@ public class AppUser : IdentityUser
 
     [StringLength(200)]
     public string ProfilePicture { get; set; }
-    public ICollection<MovieComment> Comments { get; set; }
-    public ICollection<MovieRating> Ratings { get; set; }
+    public ICollection<VideoComment> Comments { get; set; }
+    public ICollection<VideoRating> Ratings { get; set; }
 }
 
 
--- Abrir e alterar o arquivo MovieComment.cs:
+-- Abrir e alterar o arquivo VideoComment.cs:
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GalloTube.Models;
-[Table("MovieComment")]
-public class MovieComment
+[Table("VideoComment")]
+public class VideoComment
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
     [Required]
-    public int MovieId { get; set; }
-    [ForeignKey("MovieId")]
-    public Movie Movie { get; set; } //propriedade de navegação
+    public int VideoId { get; set; }
+    [ForeignKey("VideoId")]
+    public Video Video { get; set; } //propriedade de navegação
 
     [Required]
     public string UserId { get; set; } 
@@ -172,18 +172,18 @@ public class MovieComment
 }
 
 
--- Abrir e alterar o arquivo MovieTag.cs:
+-- Abrir e alterar o arquivo VideoTag.cs:
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GalloTube.Models;
-[Table("MovieTag")]
-public class MovieTag
+[Table("VideoTag")]
+public class VideoTag
 {
     [Key, Column(Order = 1)]
-    public int MovieId { get; set; }
-    [ForeignKey("MovieId")]
-    public Movie Movie { get; set; }
+    public int VideoId { get; set; }
+    [ForeignKey("VideoId")]
+    public Video Video { get; set; }
 
     [Key, Column(Order = 2)]
     public byte TagId { get; set; }
@@ -192,18 +192,18 @@ public class MovieTag
 }
 
 
--- Abrir e alterar o arquivo MovieRating.cs:
+-- Abrir e alterar o arquivo VideoRating.cs:
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GalloTube.Models;
-[Table("MovieRating")]
-public class MovieRating
+[Table("VideoRating")]
+public class VideoRating
 {
     [Key, Column(Order = 1)]
-    public int MovieId { get; set; }
-    [ForeignKey("MovieId")]
-    public Movie Movie { get; set; }
+    public int VideoId { get; set; }
+    [ForeignKey("VideoId")]
+    public Video Video { get; set; }
 
     [Key, Column(Order = 2)]
     public string UserId { get; set; }
@@ -238,10 +238,10 @@ public class AppDbContext : IdentityDbContext
 
     public DbSet<AppUser> AppUsers { get; set; }
     public DbSet<Tag> Tags { get; set;}
-    public DbSet<Movie> Movies { get; set; }
-    public DbSet<MovieComment> MovieComments { get; set; } 
-    public DbSet<MovieTag> MovieTags { get; set; }
-    public DbSet<MovieRating> MovieRating { get; set; }
+    public DbSet<Video> Videos { get; set; }
+    public DbSet<VideoComment> VideoComments { get; set; } 
+    public DbSet<VideoTag> VideoTags { get; set; }
+    public DbSet<VideoRating> VideoRating { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder) //void não tem retorno
     {
@@ -273,46 +273,46 @@ public class AppDbContext : IdentityDbContext
         });
         #endregion
 
-        #region Many To Many - MovieComment
-        builder.Entity<MovieComment>()
-            .HasOne(mc => mc.Movie)
+        #region Many To Many - VideoComment
+        builder.Entity<VideoComment>()
+            .HasOne(mc => mc.Video)
             .WithMany(m => m.Comments)
-            .HasForeignKey(mc => mc.MovieId);
+            .HasForeignKey(mc => mc.VideoId);
 
-        builder.Entity<MovieComment>()
+        builder.Entity<VideoComment>()
             .HasOne(mc => mc.User)
             .WithMany(u => u.Comments)
             .HasForeignKey(mc => mc.UserId);
         #endregion
 
-        #region Many To Many - MovieTag
+        #region Many To Many - VideoTag
         // Definição de Chave Primária Composta
-        builder.Entity<MovieTag>().HasKey(
-            mg => new { mg.MovieId, mg.TagId }
+        builder.Entity<VideoTag>().HasKey(
+            mg => new { mg.VideoId, mg.TagId }
         );
 
-        builder.Entity<MovieTag>()
-            .HasOne(mg => mg.Movie)
+        builder.Entity<VideoTag>()
+            .HasOne(mg => mg.Video)
             .WithMany(m => m.Tags)
-            .HasForeignKey(mg => mg.MovieId);
+            .HasForeignKey(mg => mg.VideoId);
 
-        builder.Entity<MovieTag>()
+        builder.Entity<VideoTag>()
             .HasOne(mg => mg.Tag)
-            .WithMany(g => g.Movies)
+            .WithMany(g => g.Videos)
             .HasForeignKey(mg => mg.TagId);
         #endregion
 
-        #region Many To Many - MovieRating
-        builder.Entity<MovieRating>().HasKey(
-            mr => new { mr.MovieId, mr.UserId }
+        #region Many To Many - VideoRating
+        builder.Entity<VideoRating>().HasKey(
+            mr => new { mr.VideoId, mr.UserId }
         );
 
-        builder.Entity<MovieRating>()
-            .HasOne(mr => mr.Movie)
+        builder.Entity<VideoRating>()
+            .HasOne(mr => mr.Video)
             .WithMany(m => m.Ratings)
-            .HasForeignKey(mr => mr.MovieId);
+            .HasForeignKey(mr => mr.VideoId);
 
-        builder.Entity<MovieRating>()
+        builder.Entity<VideoRating>()
             .HasOne(mr => mr.User)
             .WithMany(u => u.Ratings)
             .HasForeignKey(mr => mr.UserId);
@@ -1858,7 +1858,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        var videos = _context.Movies.Include(m => m.Tags).ThenInclude(g => g.Tag).ToList();
+        var videos = _context.Videos.Include(m => m.Tags).ThenInclude(g => g.Tag).ToList();
         return View(videos);
     }
 
@@ -1876,7 +1876,7 @@ public class HomeController : Controller
 
 
 -- Abrir e alterar o arquivo Views\Home\Index.cshtml:
-@model List<GalloTube.Models.Movie>
+@model List<GalloTube.Models.Video>
 @{
     ViewData["Title"] = "Home";
 }
@@ -1889,7 +1889,7 @@ public class HomeController : Controller
     <div class="container">
 
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
-        @foreach (Movie video in Model)
+        @foreach (Video video in Model)
         {            
             <div class="col">
                 <div class="card shadow-sm">
@@ -1898,7 +1898,7 @@ public class HomeController : Controller
                     <div class="card-body">
                         <p class="card-text text-center">@video.Title</p>
                         <div class="d-flex align-items-center mb-2">
-                            @foreach (MovieTag tag in video.Tags)
+                            @foreach (VideoTag tag in video.Tags)
                             {
                                 <span class="badge bg-secondary me-2">@tag.Tag.Name</span>
                             }
@@ -1923,7 +1923,7 @@ public class HomeController : Controller
  - Realize esse procedimento nos dois arquivos .js da pasta mencionada.
 
 
--- Abrir o arquivo Models\Movie.cs e acrescentar antes das listas e após a propriedade HourDuration a propriedade Classification:
+-- Abrir o arquivo Models\Video.cs e acrescentar antes das listas e após a propriedade HourDuration a propriedade Classification:
     [NotMapped]
     [Display(Name = "Classificação Etária")]
     public string Classification { get {
@@ -1933,9 +1933,9 @@ public class HomeController : Controller
 
 -- Abrir o arquivo Controllers\HomeController.cs e acrescentar após o método Index o método abaixo:
 
-    public IActionResult Movie(int? id)
+    public IActionResult Video(int? id)
     {
-        var video = _context.Movies
+        var video = _context.Videos
             .Where(m => m.Id == id)
             .Include(m => m.Tags)
             .ThenInclude(g => g.Tag)
@@ -1945,7 +1945,7 @@ public class HomeController : Controller
 
 
 -- Abrir e alterar o arquivo Views\Home\Index.cshtml:
-@model List<GalloTube.Models.Movie>
+@model List<GalloTube.Models.Video>
 @{
     ViewData["Title"] = "Home";
 }
@@ -1958,9 +1958,9 @@ public class HomeController : Controller
     <div class="container">
 
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
-        @foreach (Movie video in Model)
+        @foreach (Video video in Model)
         {        
-            <a asp-controller="Home" asp-action="Movie" asp-route-id="@video.Id"
+            <a asp-controller="Home" asp-action="Video" asp-route-id="@video.Id"
             class="text-decoration-none">
                 <div class="col">
                     <div class="card shadow-sm">
@@ -1969,7 +1969,7 @@ public class HomeController : Controller
                         <div class="card-body">
                             <p class="card-text text-center">@video.Title</p>
                             <div class="d-flex align-items-center mb-2">
-                                @foreach (MovieTag tag in video.Tags)
+                                @foreach (VideoTag tag in video.Tags)
                                 {
                                     <span class="badge bg-secondary me-2">@tag.Tag.Name</span>
                                 }
@@ -1989,11 +1989,11 @@ public class HomeController : Controller
 
 
 -- Criar o arquivo abaixo na pasta Views\Home:
- - Movie.cshtml
+ - Video.cshtml
 
 
--- Abrir e alterar o arquivo Views\Home\Movie.cshtml:
-@model GalloTube.Models.Movie
+-- Abrir e alterar o arquivo Views\Home\Video.cshtml:
+@model GalloTube.Models.Video
 @{
     ViewData["Title"] = "Home";
 }
@@ -2013,7 +2013,7 @@ public class HomeController : Controller
                 <p>@Model.Synopsis</p>
                 <p>Duração: @Model.HourDuration</p>
                 <p>Classificação: @Model.Classification</p>
-                @foreach(MovieTag videoTag in Model.Tags)
+                @foreach(VideoTag videoTag in Model.Tags)
                 {
                     <span class="badge bg-secondary me-2">@videoTag.Tag.Name</span>
                 }
@@ -2343,20 +2343,20 @@ dotnet tool install -g dotnet-aspnet-codegenerator
 
 -- A atualização dos pacotes e a ferramenta de geração de códigos está instalada, agora é só gerar os controllers e views do CRUD:
 dotnet aspnet-codegenerator controller -name TagsController -m Tag -dc AppDbContext --relativeFolderPath Controllers -l "~/Views/Shared/_LayoutAdmin.cshtml" --referenceScriptLibraries
-dotnet aspnet-codegenerator controller -name MoviesController -m Movie -dc AppDbContext --relativeFolderPath Controllers -l "~/Views/Shared/_LayoutAdmin.cshtml" --referenceScriptLibraries
+dotnet aspnet-codegenerator controller -name VideosController -m Video -dc AppDbContext --relativeFolderPath Controllers -l "~/Views/Shared/_LayoutAdmin.cshtml" --referenceScriptLibraries
 
 
 -- Abrir e alterar as linhas entre 46 a 57, do arquivo Views\Shared\_LayoutAdmin.cshtml, com o código abaixo:
     <li>
-        <a asp-action="Index" asp-controller="Movies" class="nav-link @(ViewBag.Title == "Filmes" ? "active" : "link-body-emphasis")">
+        <a asp-action="Index" asp-controller="Videos" class="nav-link @(ViewBag.Title == "Videos" ? "active" : "link-body-emphasis")">
             <i class="bi bi-film me-2"></i>
-            Filmes
+            Videos
         </a>
     </li>
     <li>
-        <a asp-action="Index" asp-controller="Tags" class="nav-link @(ViewBag.Title == "Genêros" ? "active" : "link-body-emphasis")">
+        <a asp-action="Index" asp-controller="Tags" class="nav-link @(ViewBag.Title == "Tags" ? "active" : "link-body-emphasis")">
             <i class="bi bi-list-stars me-2"></i>
-            Genêros
+            Tags
         </a>
     </li>
 
