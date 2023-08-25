@@ -26,22 +26,19 @@ public class Video
 
     [Display(Name = "data de lançamento")]
     [Required(ErrorMessage = "A data de lançamento é obrigatória")]
-    public DateTime UploadDate { get; set; }
+    public Int16 UploadDate { get; set; }
 
 
     [Display(Name = "Duração (em minutos)")]
     [Required(ErrorMessage = "A Duração é obrigatória")]
     public Int16 Duration { get; set; }
 
+    
     [NotMapped]
     [Display(Name = "Duração")]
-    public string HourDuration
-    {
-        get
-        {
-            return TimeSpan.FromMinutes(Duration).ToString(@"%h'h 'mm'min'");
-        }
-    }
+    public string HourDuration { get {
+        return TimeSpan.FromMinutes(Duration) .ToString(@"%h'h 'mm'min'");
+    }}
 
     [StringLength(200)]
     [Display(Name = "Thumbnail")]

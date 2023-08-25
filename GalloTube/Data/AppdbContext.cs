@@ -12,8 +12,8 @@ public class AppDbContext : IdentityDbContext
 
     public DbSet<AppUser> AppUsers { get; set; }
     public DbSet<Tag> Tags { get; set;}
-    public DbSet<Video> Video { get; set; }
-    public DbSet<VideoTag> VideoComments { get; set; } 
+    public DbSet<Video> Videos { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder builder) //void não tem retorno
     {
@@ -45,21 +45,21 @@ public class AppDbContext : IdentityDbContext
         });
         #endregion
 
-        #region Many To Many - VideoTag
+#region Many To Many - VideoTag
         // Definição de Chave Primária Composta
         builder.Entity<VideoTag>().HasKey(
-            vt => new { vt.VideoId, vt.TagId }
+            mg => new { mg.VideoId, mg.TagId }
         );
 
         builder.Entity<VideoTag>()
-            .HasOne(vt => vt.Video)
-            .WithMany(t => t.Tags)
-            .HasForeignKey(vt => vt.VideoId);
+            .HasOne(mg => mg.Video)
+            .WithMany(m => m.Tags)
+            .HasForeignKey(mg => mg.VideoId);
 
         builder.Entity<VideoTag>()
-            .HasOne(vt => vt.Tag)
-            .WithMany(v => v.Video)
-            .HasForeignKey(vt => vt.TagId);
+            .HasOne(mg => mg.Tag)
+            .WithMany(g => g.Video)
+            .HasForeignKey(mg => mg.TagId);
         #endregion
     }
 }

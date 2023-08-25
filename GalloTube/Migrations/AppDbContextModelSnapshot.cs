@@ -58,8 +58,8 @@ namespace GalloTube.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)");
 
-                    b.Property<DateTime>("UploadDate")
-                        .HasColumnType("datetime(6)");
+                    b.Property<short>("UploadDate")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("VideoFile")
                         .HasMaxLength(200)
@@ -115,22 +115,22 @@ namespace GalloTube.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "be693ff1-206d-4e8c-870c-cd95816efd44",
-                            ConcurrencyStamp = "1c485cae-5d42-42da-b1cf-1ee8f19db4e9",
+                            Id = "57b75ddf-930a-4b70-9752-e6beb0543264",
+                            ConcurrencyStamp = "6a705c0a-976f-4c51-b650-a9afb54f73b6",
                             Name = "Administrador",
                             NormalizedName = "ADMINISTRADOR"
                         },
                         new
                         {
-                            Id = "51acc031-a3e6-4b1d-a742-7e6f716d1e99",
-                            ConcurrencyStamp = "8f154bd7-7366-4c86-a041-f2fd2d1a8a86",
+                            Id = "1acf1460-c976-4cd3-8dfd-48e211da508e",
+                            ConcurrencyStamp = "ce9886ea-03ea-455f-b111-62ff1ae72632",
                             Name = "Moderador",
                             NormalizedName = "MODERADOR"
                         },
                         new
                         {
-                            Id = "d7f37244-1229-43a8-9121-96020d496007",
-                            ConcurrencyStamp = "18ae9673-df57-4e22-be67-7e10d9b16871",
+                            Id = "6f9d4fd1-2a4c-4729-8681-c8bce84e2aef",
+                            ConcurrencyStamp = "0ec3eec5-f6c0-456c-9d81-f6514dd08287",
                             Name = "Usuário",
                             NormalizedName = " USUÁRIO"
                         });
@@ -291,8 +291,8 @@ namespace GalloTube.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "d0dbd86a-d05d-4626-8e4f-6fb2a415f8d2",
-                            RoleId = "be693ff1-206d-4e8c-870c-cd95816efd44"
+                            UserId = "c9b78f18-ebe3-48e6-9e01-c2754b8cf42e",
+                            RoleId = "57b75ddf-930a-4b70-9752-e6beb0543264"
                         });
                 });
 
@@ -336,18 +336,18 @@ namespace GalloTube.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d0dbd86a-d05d-4626-8e4f-6fb2a415f8d2",
+                            Id = "c9b78f18-ebe3-48e6-9e01-c2754b8cf42e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "348c7060-27ff-49b3-8cef-8f0936a84904",
+                            ConcurrencyStamp = "e2484ad8-3018-4ccb-a562-8bd6baa1ab7e",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPh4Q3Bhq/ewhE8bbjbcOzyu/Xr8ABHK09eJpGjLwAmiWPHtamrTQHL1dfZLvK897w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIhks2ilWOeMoo8vf0FiVLmYS6k2qbkOZXcbrITNnuKilqWqR5yNCNMLgZxOGueAyQ==",
                             PhoneNumber = "14912345678",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "cd9c0afa-20fd-4093-831b-0deb5c3384b5",
+                            SecurityStamp = "2d45c058-3249-41d2-8769-f0a4c64b5b3d",
                             TwoFactorEnabled = false,
                             UserName = "Admin",
                             DateOfBirth = new DateTime(2005, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),

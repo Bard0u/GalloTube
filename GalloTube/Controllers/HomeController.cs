@@ -19,8 +19,19 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        var videos = _context.Video.Include(m => m.Tags).ThenInclude(g => g.Tag).ToList();
+        var videos = _context.Videos.Include(v => v.Tags).ThenInclude(t => t.Tag).ToList();
         return View(videos);
+    }
+
+    
+    public IActionResult Video(int? id)
+    {
+        var video = _context.Videos
+            .Where(m => m.Id == id)
+            .Include(m => m.Tags)
+            .ThenInclude(g => g.Tag)
+            .SingleOrDefault();
+        return View(video);
     }
 
     public IActionResult Privacy()
@@ -34,14 +45,5 @@ public class HomeController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-      public IActionResult Movie(int? id)
-    {
-        var video = _context.Video
-            .Where(m => m.Id == id)
-            .Include(m => m.Tags)
-            .ThenInclude(g => g.Tag)
-            .SingleOrDefault();
-        return View(video);
-    }
 }
 

@@ -22,18 +22,18 @@ namespace GalloTube.Controllers
         // GET: Videos
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Video.ToListAsync());
+              return View(await _context.Videos.ToListAsync());
         }
 
         // GET: Videos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Video == null)
+            if (id == null || _context.Videos == null)
             {
                 return NotFound();
             }
 
-            var video = await _context.Video
+            var video = await _context.Videos
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (video == null)
             {
@@ -68,12 +68,12 @@ namespace GalloTube.Controllers
         // GET: Videos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Video == null)
+            if (id == null || _context.Videos == null)
             {
                 return NotFound();
             }
 
-            var video = await _context.Video.FindAsync(id);
+            var video = await _context.Videos.FindAsync(id);
             if (video == null)
             {
                 return NotFound();
@@ -119,12 +119,12 @@ namespace GalloTube.Controllers
         // GET: Videos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Video == null)
+            if (id == null || _context.Videos == null)
             {
                 return NotFound();
             }
 
-            var video = await _context.Video
+            var video = await _context.Videos
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (video == null)
             {
@@ -139,14 +139,14 @@ namespace GalloTube.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Video == null)
+            if (_context.Videos == null)
             {
                 return Problem("Entity set 'AppDbContext.Video'  is null.");
             }
-            var video = await _context.Video.FindAsync(id);
+            var video = await _context.Videos.FindAsync(id);
             if (video != null)
             {
-                _context.Video.Remove(video);
+                _context.Videos.Remove(video);
             }
             
             await _context.SaveChangesAsync();
@@ -155,7 +155,7 @@ namespace GalloTube.Controllers
 
         private bool VideoExists(int id)
         {
-          return _context.Video.Any(e => e.Id == id);
+          return _context.Videos.Any(e => e.Id == id);
         }
     }
 }
