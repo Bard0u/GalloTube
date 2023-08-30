@@ -2365,3 +2365,44 @@ dotnet aspnet-codegenerator controller -name VideosController -m Video -dc AppDb
 
 
 
+
+
+
+
+USE GalloTube;
+
+INSERT INTO Tag(Id, Name) VALUES
+(1, 'Comédia'),
+(2, 'Jogos'),
+(3, 'Músicas'),
+(4, 'Comidas'),
+(5, 'Entretenimento'),
+(6, 'Terror'),
+(7, 'Animais'),
+(8,'Notícias');
+
+INSERT INTO Video(Id, Name, Description, UploadDate, Duration, Thumbnail) VALUES
+( 1, 'visitei a casa assombrada da minha avó falecida - morri de medo', 'visitei a casa da vovo, falecida, será que sai viva?', 2023, 10, '\\img\\videos\\01.jpg'),
+( 2, 'O nosso cliente não acreditou neste serviço!!', 'cliente estava com problemas na parede e olha a solução que criamos (serviço de 10 horas pronto em 1 hora!!!)', 2023, 14, '\\img\\videos\\02.jpg'),
+( 3, 'os 7 planetas descobertos pela nasa - será que seremos substituídos?', 'NASA encontrou o PLANETA MAIS ASSUSTADOR DO UNIVERSO - 10 piores planetas do universo', 2023, 12, '\\img\\videos\\03.jpg'),
+( 4, 'o planeta depois dos dinossauros', 'Como o planeta ficou após 1 minuto da grande colisão? E que tal 1 ano, ou talvez 10 milhões de anos depois?', 2023, 11, '\\img\\videos\\04.jpg'),
+( 5, 'NÃO ESCOLHA O CAMINHO ERRADO OU VAI SE ARREPENDER!!', 'Escolha o melhor caminho (tome cuidado com o fogo)', 2023, 142, '\\img\\videos\\05.jpg'),
+( 6, 'Carisma azul - besouro azul não foi o que eu pensei', 'Sim, eu gostei de Besouro Azul e não foi só por conta da Bruna Marquezine, não! É um filme perfeito? Negativo. Mas ele tem um certo carisma que fez muita falta nos últimos lançamentos da DC, principalmente na relação dos personagens e nas cenas de ação. No final, Besouro Azul me divertiu bem mais do que eu esperava, AINDA BEM. ', 2023, 15, '\\img\\videos\\06.jpg'),
+( 7, 'Entrevista com Bruna', 'Bruna Marquezine, do Blue Beetle, revela seus lanches favoritos | Lanche ', 2023, 10, '\\img\\videos\\07.jpg'),
+( 8, 'EXCLUSIVO: Larissa Manoela passa patrimônio a limpo e mostra mensagens da mãe I FANTÁSTICO', 'Veja novos detalhes da relação com os pais, que administravam a carreira e a vida financeira da atriz', 2023, 9, '\\img\\videos\\08.jpg'),
+( 9, 'Quem fez isso?', 'fãs ou haters?', 2023, 17, '\\img\\videos\\09.jpg'),
+( 10, 'puts Fran', 'é apenas a minha opinião', 2023, 22, '\\img\\videos\\10.jpg'),
+( 11, 'Como é feita a CREMAÇÃO -Boravê', 'Pode parecer meio macabro ou assustador falar de cremação, mas é algo natural da vida e é muito interessante ver como esse processo acontece. É uma forma de sepultamento que tem sido usada por milhares de anos em diferentes culturas. No vídeo, usando um caixão vazio, são mostradas todas as etapas da cremação, como o elevador de transporte, o forno de tijolos refratários, a preparação das cinzas e a forma como elas são entregues aos familiares', 2023, 16, '\\img\\videos\\11.jpg');
+
+INSERT INTO VideoTag VALUES
+( 1, 5),
+( 2, 8),
+( 3,  5), (3, 7),
+( 4, 5), (4, 8),
+( 5, 6),
+( 6,  2), (6, 5),
+( 7,  2), (7, 5),
+( 8, 4),
+( 9, 5),
+( 10, 1), (10, 5),
+( 11, 3), (11, 5);
